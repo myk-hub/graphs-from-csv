@@ -2,33 +2,46 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Data Viz Programming Exercise</title>
     <link rel='stylesheet' href='css/style.css' />
-		<link rel='stylesheet' href='css/bootstrap.min.css' />
-		<link rel='stylesheet' href='css/font-awesome.min.css' />
-		<!-- Load c3.css -->
-		<link href="css/c3.css" rel="stylesheet" type="text/css">
+    <link href="css/c3.css" rel="stylesheet" type="text/css">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<!-- Load d3.js and c3.js -->
-		<script src="js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 		<script src="js/c3.min.js"></script>
 		<!-- Load papaparse.js -->
-		<script src="js/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.3/papaparse.min.js"></script>
   </head>
   <body>
-      <div class="container">
-
-        <h2>Created vs summary</h1><hr />
-        <div class="alert alert-info">
-          <strong>passed</strong>: 1
-          <strong>error</strong>: 0
-          <strong>failed</strong>: 1
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">History of the project for 2014</a>
         </div>
+      </div>
+    </nav>
+      <div class="container main">
+          <h2>Passing and failing builds per day</h1>
+          <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-xs">show summary status map</button>
+          <div id="demo" class="collapse alert alert-info">
+            <small>1 : passed</small><br>
+            <small>0 : error</small><br>
+            <small>-1 : failed</small><br>
+          </div>
+        <div id="test"></div><hr>
+
+        <h2>Passing and failing builds by steps</h2>
+
         <div id="chart1"></div><hr />
 
-        <h2>duration vs. time</h1>
+        <h2>Duration vs Created time</h1>
         <div id="chart2"></div>
-
-      </div>
+      </div><hr>
     <script src="js/create-graph.js"></script>
   </body>
 </html>

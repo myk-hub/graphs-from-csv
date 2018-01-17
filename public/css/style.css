@@ -1,3 +1,15 @@
 body: {
-	
+
+}
+
+.main {
+  margin-top:50px;
+}
+
+#test {
+  height: 400px;
+}
+
+#chart2 {
+  height: 500px;
 }

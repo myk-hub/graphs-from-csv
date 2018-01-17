@@ -1,7 +1,7 @@
 function parseData(createGraph) {
 	Papa.parse("../data/session_history.csv", {
 		download: true,
-		complete: function(results) {
+		complete: (results) => {
 			createGraph(results.data);
 		}
 	});
@@ -19,11 +19,7 @@ function createGraph(data) {
 		duration.push(data[i][4]);
 	}
 
-	// for (var i = 0; i < created_at.length; i++) {
-	// 	created_at[i]
-	// }
-
-	for (let i = 0; i < summary_status.length; i++) {
+	for (let i = 0; i < summary_status.length -1; i++) {
 		if (summary_status[i] === 'passed') {
 			summary_status[i] = 1;
 		} else if (summary_status[i] === 'error'){
@@ -33,15 +29,27 @@ function createGraph(data) {
 		}
 	}
 
-	for (let i = 0; i < duration.length; i++) {
+	for (let i = 0; i < duration.length - 1; i++) {
 		duration[i] = Math.ceil(duration[i]);
 	}
 
+	for (let i = 0; i < created_at.length - 1; i++) {
+		created_at[i] = created_at[i].substr(0, 18);
+	}
+
+	duration.reverse();
+	summary_status.reverse();
+	created_at.reverse();
+
+	summary_status[0] = 'Summary status';
+	duration[0] = 'Duration';
+	created_at[0] = 'Time';
+
 	console.log(duration);
-	console.log(created_at[1]);
+	console.log(created_at);
 	console.log(summary_status);
 
-		let chart1 = c3.generate({
+		let summaryStatusVsCreatedTime = c3.generate({
 			bindto: '#chart1',
 		    data: {
 		        columns: [
@@ -55,7 +63,7 @@ function createGraph(data) {
 		            tick: {
 		            	multiline: false,
 	                	culling: {
-	                    	max: 100
+	                    	max: 25
 	                	}
 	            	}
 		        }
@@ -65,29 +73,63 @@ function createGraph(data) {
 	    	}
 		});
 
-		let chart2 = c3.generate({
+		let duratuinVsCreatedTime = c3.generate({
 			bindto: '#chart2',
-				data: {
-						columns: [
-							duration
-						]
-				},
-				axis: {
-						x: {
-								type: 'bar',
-								categories: created_at,
-								tick: {
-									multiline: false,
-										culling: {
-												max: 100
-										}
-								}
-						}
-				},
-				zoom: {
-						enabled: true
-				}
+			data: {
+	        x: 'Time',
+					xFormat: '%Y-%m-%d %H:%M:%S',
+	        columns: [
+						created_at,
+						duration
+	        ]
+	    },
+	    axis: {
+	        x: {
+	            type: 'timeseries',
+	            tick: {
+	                format: '%m-%d %H:%M',
+									culling: {
+											max: 5
+									}
+	            }
+	        }
+	    },
+			zoom: {
+					enabled: true
+			},
+			subchart: {
+					show: true
+			}
 		});
+
+		let test = c3.generate({
+			bindto: '#test',
+			data: {
+	        x: 'Time',
+					xFormat: '%Y-%m-%d %H:%M:%S',
+	        columns: [
+						created_at,
+						summary_status
+	        ]
+	    },
+	    axis: {
+	        x: {
+	            type: 'timeseries',
+	            tick: {
+	                format: '%m-%d %H:%M',
+									culling: {
+											max: 5
+									}
+	            }
+	        },
+	    },
+			zoom: {
+					enabled: true
+			},
+			subchart: {
+	        show: true
+	    }
+});
 }
 
 parseData(createGraph);
