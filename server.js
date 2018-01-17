@@ -4,12 +4,11 @@ const express = require('express'),
       port = 3000,
       bodyParser = require('body-parser');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(`${__dirname}/public/index.html`));
 });
-
 
 app.listen(port, (err) => {
   if (err) {
