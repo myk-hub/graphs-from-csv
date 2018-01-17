@@ -8,7 +8,7 @@ function parseData(createGraph) {
 }
 
 function createGraph(data) {
-	
+
 	let created_at = [];
 	let summary_status = [];
 	let duration = [];
@@ -19,36 +19,75 @@ function createGraph(data) {
 		duration.push(data[i][4]);
 	}
 
+	// for (var i = 0; i < created_at.length; i++) {
+	// 	created_at[i]
+	// }
+
+	for (let i = 0; i < summary_status.length; i++) {
+		if (summary_status[i] === 'passed') {
+			summary_status[i] = 1;
+		} else if (summary_status[i] === 'error'){
+			summary_status[i] = 0;
+		} else {
+			summary_status[i] = -1;
+		}
+	}
+
+	for (let i = 0; i < duration.length; i++) {
+		duration[i] = Math.ceil(duration[i]);
+	}
+
 	console.log(duration);
-	console.log(created_at);
+	console.log(created_at[1]);
 	console.log(summary_status);
 
-	var chart = c3.generate({
-		bindto: '#chart',
-	    data: {
-	        columns: [
-	        	created_at
-	        ]
-	    },
-	    axis: {
-	        x: {
-	            type: 'bar',
-	            categories: created_at,
-	            tick: {
-	            	multiline: false,
-                	culling: {
-                    	max: 15
-                	}
-            	}
-	        }
-	    },
-	    zoom: {
-        	enabled: true
-    	},
-	    legend: {
-	        position: 'right'
-	    }
-	});
+		let chart1 = c3.generate({
+			bindto: '#chart1',
+		    data: {
+		        columns: [
+							summary_status
+		        ]
+		    },
+		    axis: {
+		        x: {
+		            type: 'spline',
+		            categories: created_at,
+		            tick: {
+		            	multiline: false,
+	                	culling: {
+	                    	max: 100
+	                	}
+	            	}
+		        }
+		    },
+		    zoom: {
+	        	enabled: true
+	    	}
+		});
+
+		let chart2 = c3.generate({
+			bindto: '#chart2',
+				data: {
+						columns: [
+							duration
+						]
+				},
+				axis: {
+						x: {
+								type: 'bar',
+								categories: created_at,
+								tick: {
+									multiline: false,
+										culling: {
+												max: 100
+										}
+								}
+						}
+				},
+				zoom: {
+						enabled: true
+				}
+		});
 }
 
 parseData(createGraph);
