@@ -1,7 +1,7 @@
 const express = require('express'),
       app = express(),
       path = require('path'),
-      port = 3000,
+      port = process.env.PORT || 8000,
       bodyParser = require('body-parser');
 
 app.use(express.static(`${__dirname}/public`));

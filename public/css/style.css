@@ -1,9 +1,21 @@
-body: {
+* {
+  font-family: 'Quicksand', sans-serif;
+}
 
+body: {
+}
+
+ul {
+  text-align: center;
 }
 
 .main {
   margin-top:50px;
+}
+
+.list-inline {
+  margin-top: 10px;
+  margin-bottom: -10px;
 }
 
 #test {
@@ -12,4 +24,16 @@ body: {
 
 #chart2 {
   height: 500px;
+}
+
+#passed {
+  color: #7bbb36;
+}
+
+#error {
+  color: #6AA5CE;
+}
+
+#failed {
+  color: #d33642;
 }

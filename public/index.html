@@ -6,6 +6,7 @@
     <link rel='stylesheet' href='css/style.css' />
     <link href="css/c3.css" rel="stylesheet" type="text/css">
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
@@ -26,18 +27,24 @@
       </div>
     </nav>
       <div class="container main">
-          <h2>Passing and failing builds per day</h1>
-          <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-xs">show summary status map</button>
-          <div id="demo" class="collapse alert alert-info">
-            <small>1 : passed</small><br>
-            <small>0 : error</small><br>
-            <small>-1 : failed</small><br>
-          </div>
-        <div id="test"></div><hr>
-
-        <h2>Passing and failing builds by steps</h2>
-
-        <div id="chart1"></div><hr />
+          <h2>Passing and failing builds</h1>
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#home">per days</a></li>
+              <li><a data-toggle="tab" href="#menu1">fails statistic</a></li>
+            </ul>
+            <ul class="list-inline">
+              <li id="passed"><small>1 : passed</small></li>
+              <li id="error"><small>0 : error</small></li>
+              <li id="failed"><small>-1 : failed</small></li>
+            </ul>
+            <div class="tab-content">
+              <div id="home" class="tab-pane fade in active">
+                <div id="test"></div><hr>
+              </div>
+              <div id="menu1" class="tab-pane fade">
+                <div id="chart1"></div><hr />
+              </div>
+            </div>
 
         <h2>Duration vs Created time</h1>
         <div id="chart2"></div>
