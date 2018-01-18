@@ -2,11 +2,16 @@
   font-family: 'Quicksand', sans-serif;
 }
 
-body: {
-}
-
 ul {
   text-align: center;
+}
+
+#statusVsTime {
+  height: 350px;
+}
+
+#chart2 {
+  height: 500px;
 }
 
 .main {
@@ -18,22 +23,23 @@ ul {
   margin-bottom: -10px;
 }
 
-#test {
-  height: 400px;
-}
-
-#chart2 {
-  height: 500px;
-}
-
-#passed {
+.passed {
   color: #7bbb36;
 }
 
-#error {
-  color: #6AA5CE;
+.stopped {
+  color: #6aa5ce;
 }
 
-#failed {
+.error {
+  color: #ffe03d;
+}
+
+.failed {
   color: #d33642;
+}
+
+.annotation {
+  margin-left: 30px;
+  margin-right: 30px;
 }

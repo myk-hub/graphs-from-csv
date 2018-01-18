@@ -29,25 +29,41 @@
       <div class="container main">
           <h2>Passing and failing builds</h1>
             <ul class="nav nav-tabs">
-              <li class="active"><a data-toggle="tab" href="#home">per days</a></li>
-              <li><a data-toggle="tab" href="#menu1">fails statistic</a></li>
-            </ul>
-            <ul class="list-inline">
-              <li id="passed"><small>1 : passed</small></li>
-              <li id="error"><small>0 : error</small></li>
-              <li id="failed"><small>-1 : failed</small></li>
+              <li class="active"><a data-toggle="tab" href="#details">details by date</a></li>
+              <li><a data-toggle="tab" href="#fails_stat">fails statistic</a></li>
             </ul>
             <div class="tab-content">
-              <div id="home" class="tab-pane fade in active">
-                <div id="test"></div><hr>
+
+              <div id="details" class="tab-pane fade in active">
+                <ul class="list-inline">
+                  <li><small>Status map:</small></li>[
+                  <li class="passed"><small>1 : passed</small></li>
+                  <li class="stopped"><small>0 : stopped</small></li>
+                  <li class="error"><small>-1 : error</small></li>
+                  <li class="failed"><small>-2 : failed</small></li>]
+                </ul>
+                <div id="statusVsTime"></div><hr>
               </div>
-              <div id="menu1" class="tab-pane fade">
-                <div id="chart1"></div><hr />
+              <div id="fails_stat" class="tab-pane fade">
+                <ul type="circle" class="list-inline">
+                  <li class="failed"><small>Abnormal Points: </small>(1 < y <= 3)</li>|
+                  <li class="stopped"><small>Normal Points: </small>(0 <= y <= 1)</li>
+                </ul>
+                <div id="failsStat"></div>
+                <div class="annotation">
+                  <h3>What is an abnormal point?</h3>
+                  <p>
+                  <strong>Abnormal points</strong> are points whose values exceed the <strong>average error value</strong> per day.<br />
+                  The <strong>average error value</strong> is the number of errors for 1 day.<br />
+                  For example: we have 27 days and a total of 15 errors. The average value will be <sup>15</sup>/<sub>27</sub>, which equals 0.555555556. Rounding up an integer we get 1. So, all values greater than 1 will be considered as abnormal, you can see this on the chart.
+                </p>
+              </div>
+                <hr />
               </div>
             </div>
 
         <h2>Duration vs Created time</h1>
-        <div id="chart2"></div>
+        <div id="durVsTime"></div>
       </div><hr>
     <script src="js/create-graph.js"></script>
   </body>

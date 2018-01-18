@@ -1,3 +1,4 @@
+// parsing data
 function parseData(createGraph) {
 	Papa.parse("../data/session_history.csv", {
 		download: true,
@@ -6,38 +7,40 @@ function parseData(createGraph) {
 }
 
 function createGraph(data) {
-
+// init basic datas
 	let created_at = [];
 	let summary_status = [];
 	let duration = [];
 
-	for (let i = 1; i < data.length; i++) {
+	for (let i = 1; i < data.length; i++) { // get our data into arrays from data object
 		created_at.unshift(data[i][2]);
 		summary_status.unshift(data[i][3]);
 		duration.unshift(data[i][4]);
 	}
 
-	for (let i = 1; i < duration.length; i++) {
+	for (let i = 1; i < duration.length; i++) { // round our duration
 		duration[i] = Math.ceil(duration[i]);
 	}
-/**/
-	// (function () {
+
+//***//
+	// this arrays needs to find abnormal points
 		let formatedCreated_at = [];
-
-		for (let i = 0; i < created_at.length; i++) {
-			formatedCreated_at.push(created_at[i]);
-		}
-
 		let datesWithoutRepeat = [];
 		let indexRepeats = [];
 		let countedStatus = [];
 
-		for (let i = 1; i < formatedCreated_at.length; i++) {
+
+		for (let i = 0; i < created_at.length; i++) { // copy arr from main arr
+			formatedCreated_at.push(created_at[i]);
+		}
+
+		for (let i = 1; i < formatedCreated_at.length; i++) { //parse date to %Y-%m-%d
 			formatedCreated_at[i] = formatedCreated_at[i].substr(0, 10);
 		}
 
 		let sumOfFails = 0;
 
+		//it is necessary to describe the graphs
 		formatedCreated_at[0] = 'Sorted Time';
 		datesWithoutRepeat[0] = 'Sorted Time';
 		countedStatus[0] = 'Amount of fails';
@@ -51,7 +54,7 @@ function createGraph(data) {
 
 		for (let i = 0; i < indexRepeats.length; i++) {
 		  let counter = 0;
-		  for (let j = indexRepeats[i]; j < indexRepeats[i + 1]; j++) { // FIXME: last item
+		  for (let j = indexRepeats[i]; j < indexRepeats[i + 1]; j++) {
 		    if (summary_status[j] === 'failed') {
 		      counter++;
 		    }
@@ -61,15 +64,8 @@ function createGraph(data) {
 		}
 
 		let avarage = Math.ceil(sumOfFails / countedStatus.length);
-		console.log(sumOfFails);
-		console.log(avarage);
-
-		console.log(datesWithoutRepeat);
-		console.log(countedStatus);
-		console.log(indexRepeats);
-
-	// })()
-	/**/
+		//
+//***//
 
 	for (let i = 1; i < created_at.length; i++) {
 		created_at[i] = created_at[i].substr(0, 18);
@@ -78,23 +74,22 @@ function createGraph(data) {
 		for (let i = 1; i < summary_status.length; i++) {
 			if (summary_status[i] === 'passed') {
 				summary_status[i] = 1;
-			} else if (summary_status[i] === 'error'){
+			} else if (summary_status[i] === 'stopped'){
 				summary_status[i] = 0;
-			} else {
+			} else if (summary_status[i] === 'error'){
 				summary_status[i] = -1;
+			} else {
+				summary_status[i] = -2;
 			}
 		}
 
 	summary_status[0] = 'Summary status';
 	duration[0] = 'Duration';
 	created_at[0] = 'Time';
-	//
-	// console.log(summary_status);
-	// console.log(created_at);
-	// console.log(duration);
 
-	let sumStatusVsCreatTimeByDay = c3.generate({
-		bindto: '#test',
+//Here we build our data
+	let sumStatusVsCreatTime = c3.generate({
+		bindto: '#statusVsTime',
 		data: {
 				x: 'Time',
 				xFormat: '%Y-%m-%d %H:%M:%S',
@@ -103,10 +98,12 @@ function createGraph(data) {
 					summary_status
 				],
 				color(color, d) {
-					if (d.value < 0) {
+					if (d.value === 1) {
+						return "#7bbb36";
+					} else if (d.value === -1) {
+						return "#ffe03d";
+					} else if (d.value === -2) {
 						return "#d33642";
-					} else if (d.value > 0) {
-						return "#7BBB36";
 					} else {
 						return color;
 					}
@@ -131,8 +128,8 @@ function createGraph(data) {
 		}
 	});
 
-		let sumStatusVsCreatTimeBySteps = c3.generate({
-			bindto: '#chart1',
+		let failsStat = c3.generate({
+			bindto: '#failsStat',
 			data: {
 					x: 'Sorted Time',
 					xFormat: '%Y-%m-%d',
@@ -154,7 +151,7 @@ function createGraph(data) {
 							tick: {
 									format: '%m-%d',
 									culling: {
-											max: 15
+											max: 18
 									}
 							}
 					},
@@ -162,7 +159,7 @@ function createGraph(data) {
 			grid: {
 			y: {
 					lines: [
-							{value: avarage, text: 'the average error value for all time', position: 'middle'}
+							{value: avarage, text: 'abnormal points above this line', position: 'middle'}
 					]
 				}
 			},
@@ -172,7 +169,7 @@ function createGraph(data) {
 		});
 
 		let durVsCreatTime = c3.generate({
-			bindto: '#chart2',
+			bindto: '#durVsTime',
 			data: {
 	        x: 'Time',
 					xFormat: '%Y-%m-%d %H:%M:%S',
