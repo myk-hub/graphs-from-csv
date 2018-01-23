@@ -44,9 +44,8 @@ function createGraph(data) {
     }
     countedStatus.push(counter);
   }
-
+  // fix problem with last element
   let lastDayCounter = 0;
-
   for (let i = indexRepeats[indexRepeats.length - 1]; i < summary_status.length; i++) {
       lastDayCounter++;
   }

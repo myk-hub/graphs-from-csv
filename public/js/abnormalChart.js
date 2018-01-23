@@ -49,7 +49,7 @@ function createGraph(data) {
     countedStatus.push(counter);
     sumOfFails += counter;
   }
-
+  // fix problem with last element
   let lastDayCounter = 0;
 
   for (let i = indexRepeats[indexRepeats.length - 1]; i < summary_status.length; i++) {
@@ -59,7 +59,6 @@ function createGraph(data) {
   }
 
   sumOfFails += lastDayCounter;
-
   countedStatus.push(lastDayCounter);
   // number of fail/failures for 1 day
   const avarage = Math.ceil(sumOfFails / countedStatus.length);
