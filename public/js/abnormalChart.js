@@ -39,7 +39,7 @@ function createGraph(data) {
   let sumOfFails = 0;
   // count the failures for each separate day
   // here we need our indexRepeats
-  for (let i = 0; i < indexRepeats.length; i++) {
+  for (let i = 0; i < indexRepeats.length - 1; i++) {
     let counter = 0;
     for (let j = indexRepeats[i]; j < indexRepeats[i + 1]; j++) {
       if (summary_status[j] === 'failed') {
@@ -49,9 +49,21 @@ function createGraph(data) {
     countedStatus.push(counter);
     sumOfFails += counter;
   }
+
+  let lastDayCounter = 0;
+
+  for (let i = indexRepeats[indexRepeats.length - 1]; i < summary_status.length; i++) {
+    if (summary_status[i] === 'failed') {
+      lastDayCounter++;
+    }
+  }
+
+  sumOfFails += lastDayCounter;
+
+  countedStatus.push(lastDayCounter);
   // number of fail/failures for 1 day
   const avarage = Math.ceil(sumOfFails / countedStatus.length);
-  
+
   // build abnormal graph
   const failsStat = c3.generate({
     bindto: '#failsStat',
@@ -74,10 +86,8 @@ function createGraph(data) {
       x: {
         type: 'timeseries',
         tick: {
-          format: '%m-%d',
-          culling: {
-            max: 18
-          }
+          fit: false,
+          format: '%Y-%m-%d'
         }
       },
     },
@@ -91,7 +101,8 @@ function createGraph(data) {
       }
     },
     zoom: {
-      enabled: true
+      enabled: true,
+      rescale: true
     }
   });
 

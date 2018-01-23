@@ -10,6 +10,10 @@ ul {
   height: 350px;
 }
 
+#durVsTime {
+  height: 420px;
+}
+
 #chart2 {
   height: 500px;
 }

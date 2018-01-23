@@ -25,7 +25,7 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="index.html">History of the project for 2014</a>
+        <a class="navbar-brand" href="index.html">History of the project</a>
       </div>
     </div>
   </nav>
@@ -33,19 +33,12 @@
   <div class="container main">
     <h2>Passing and failing builds</h1>
             <ul class="nav nav-tabs">
-              <li class="active"><a data-toggle="tab" href="#details">details by date</a></li>
+              <li class="active"><a data-toggle="tab" href="#details">bulds per day</a></li>
               <li><a data-toggle="tab" href="#fails_stat">fails statistic</a></li>
             </ul>
             <div class="tab-content">
 
               <div id="details" class="tab-pane fade in active">
-                <ul class="list-inline">
-                  <li><small>Status map:</small></li>[
-                  <li class="passed"><small>1 : passed</small></li>
-                  <li class="stopped"><small>0 : stopped</small></li>
-                  <li class="error"><small>-1 : error</small></li>
-                  <li class="failed"><small>-2 : failed</small></li>]
-                </ul>
                 <div id="statusVsTime"></div><hr>
               </div>
 
@@ -53,7 +46,7 @@
 
                 <ul type="circle" class="list-inline">
                   <li class="failed"><small>Abnormal Points: </small>(1 < y <= 3)</li>|
-                  <li class="stopped"><small>Normal Points: </small>(0 <= y <= 1)</li>
+                  <li class="stopped"><small>Normal Points: </small>(y = 0 || y = 1)</li>
                 </ul>
 
                 <div id="failsStat"></div>
@@ -73,6 +66,7 @@
             <div id="durVsTime"></div>
       </div><hr>
 
+    <script src="js/durVsCreatTime.js"></script>
     <script src="js/timeSeriesCharts.js"></script>
     <script src="js/abnormalChart.js"></script>
 
