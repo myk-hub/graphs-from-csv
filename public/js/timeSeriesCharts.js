@@ -1,6 +1,6 @@
 // parsing data
 function parseData(createGraph) {
-  Papa.parse("../data/session_history.csv", {
+  Papa.parse("../upload/session_history.csv", {
     download: true,
     complete: (results) => createGraph(results.data)
   });
@@ -59,7 +59,8 @@ function createGraph(data) {
         type: 'bar',
         columns: [
             datesWithoutRepeat,
-            countedStatus
+            countedStatus,
+            summary_status
         ],
     },
     axis: {
