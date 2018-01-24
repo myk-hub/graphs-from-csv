@@ -85,6 +85,7 @@ function createGraph(data) {
       x: {
         type: 'timeseries',
         tick: {
+          rotate: 15,
           fit: false,
           format: '%Y-%m-%d'
         }

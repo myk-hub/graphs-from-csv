@@ -23,11 +23,11 @@
             <h2>Upload CSV</h2>
             <form ref='uploadForm'
               id='uploadForm'
-              action='http://localhost:8000/upload'
+              action='/upload'
               method='post'
               encType="multipart/form-data">
               <span class="btn btn-default btn-file">
-                <input type="file" name="sampleFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                <input type="file" name="sampleFile" required="true" accept=".csv"/>
               </span>
               <input type='submit' class="btn btn-success" value='Build graphs' />
             </form>

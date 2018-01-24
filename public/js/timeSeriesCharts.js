@@ -59,14 +59,14 @@ function createGraph(data) {
         type: 'bar',
         columns: [
             datesWithoutRepeat,
-            countedStatus,
-            summary_status
+            countedStatus
         ],
     },
     axis: {
         x: {
             type: 'timeseries',
             tick: {
+                rotate: 15,
                 fit: false,
                 format: '%Y-%m-%d'
             }
@@ -75,9 +75,6 @@ function createGraph(data) {
     zoom: {
       enabled: true,
       rescale: true
-    },
-    line: {
-      size: 10
     }
   });
 

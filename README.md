@@ -1,6 +1,6 @@
 # graphs-from-csv
 
-``` $ git clone https://github.com/usernamen7/ng-ionic-auth.git ```
+``` $ git clone https://github.com/usernamen7/graphs-from-csv.git ```
 
 ``` $ npm install ```
 
