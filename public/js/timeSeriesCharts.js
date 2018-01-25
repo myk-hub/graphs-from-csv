@@ -54,7 +54,6 @@ function createGraph(data) {
     errorArr.push(errorCounter);
     stoppedArr.push(stoppedCounter);
     failedArr.push(failedCounter);
-
   }
   // fix problem with last element
   let passedLastCounter = 0, errorLastCounter = 0, stoppedLastCounter = 0, failedLastCounter = 0;
@@ -70,8 +69,6 @@ function createGraph(data) {
   errorArr.push(errorLastCounter);
   stoppedArr.push(stoppedLastCounter);
   failedArr.push(failedLastCounter);
-
-  console.log(datesWithoutRepeat, passedArr, errorArr, stoppedArr, failedArr);
   //Here we build our charts
   const sumStatusVsCreatTime = c3.generate({
     bindto: '#statusVsTime',

@@ -6,20 +6,16 @@ ul {
   text-align: center;
 }
 
-/*input {
-
-}*/
-
 #statusVsTime {
-  height: 350px;
+  height: 420px;
 }
 
 #durVsTime {
   height: 420px;
 }
 
-#chart2 {
-  height: 500px;
+#failsStat {
+  height: 420px;
 }
 
 .main {
@@ -44,8 +40,4 @@ ul {
 
 .failed {
   color: #d33642;
-}
-
-.annotation {
-  margin: 0 30px 0 30px;
 }

@@ -36,7 +36,6 @@ function createGraph(data) {
     }
   }
 
-  let sumOfFails = 0;
   // count the failures for each separate day
   // here we need our indexRepeats
   for (let i = 0; i < indexRepeats.length - 1; i++) {
@@ -47,7 +46,6 @@ function createGraph(data) {
       }
     }
     countedStatus.push(counter);
-    sumOfFails += counter;
   }
   // fix problem with last element
   let lastDayCounter = 0;
@@ -58,11 +56,28 @@ function createGraph(data) {
     }
   }
 
-  sumOfFails += lastDayCounter;
   countedStatus.push(lastDayCounter);
-  // number of fail/failures for 1 day
-  const avarage = Math.ceil(sumOfFails / countedStatus.length);
+  // solution based on interquartile range
+  let findAbnormalPoint = function (arr) {
+    let q1, q3, iqr, maxValue, minValue,
+        values = arr.slice().sort( (a, b) => a - b); //copy array fast and sort
 
+    if((values.length / 4) % 1 === 0){ //find quartiles
+      q1 = 1/2 * (values[(values.length / 4)] + values[(values.length / 4) + 1]);
+      q3 = 1/2 * (values[(values.length * (3 / 4))] + values[(values.length * (3 / 4)) + 1]);
+    } else {
+      q1 = values[Math.floor(values.length / 4 + 1)];
+      q3 = values[Math.ceil(values.length * (3 / 4) + 1)];
+    }
+
+    iqr = q3 - q1;
+    maxValue = q3 + iqr * 1.5;
+    minValue = q1 - iqr * 1.5;
+
+    return Math.max.apply(null, values.filter((x) => (x >= minValue) && (x <= maxValue)));
+  };
+
+  const maxNormalValue = findAbnormalPoint(countedStatus);
   // build abnormal graph
   const failsStat = c3.generate({
     bindto: '#failsStat',
@@ -74,7 +89,7 @@ function createGraph(data) {
         countedStatus
       ],
       color(color, d) {
-        if (d.value > 1) {
+        if (d.value > maxNormalValue) {
           return "#d33642";
         } else {
           return color;
@@ -86,10 +101,9 @@ function createGraph(data) {
         type: 'timeseries',
         tick: {
           culling: {
-            max: 30 // the number of tick texts will be adjusted to less than this value
+            max: 30
           },
           rotate: 80,
-          // fit: false,
           format: '%Y-%m-%d'
         }
       },
@@ -97,7 +111,7 @@ function createGraph(data) {
     grid: {
       y: {
         lines: [{
-          value: avarage,
+          value: maxNormalValue,
           text: 'abnormal points above this line',
           position: 'middle'
         }]
