@@ -85,8 +85,11 @@ function createGraph(data) {
       x: {
         type: 'timeseries',
         tick: {
-          rotate: 15,
-          fit: false,
+          culling: {
+            max: 30 // the number of tick texts will be adjusted to less than this value
+          },
+          rotate: 80,
+          // fit: false,
           format: '%Y-%m-%d'
         }
       },

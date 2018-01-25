@@ -12,7 +12,11 @@ function createGraph(data) {
   let summary_status = [];
   // we need these arrays to construct graphs with abnormal points
   let datesWithoutRepeat = [];
-  let countedStatus = [];
+  // status arrays
+  let passedArr = ['passed'];
+  let errorArr = ['error'];
+  let stoppedArr = ['stopped'];
+  let failedArr = ['failed'];
   // auxiliary array for error calculations
   let indexRepeats = [];
   // get our data into arrays from data object
@@ -27,7 +31,6 @@ function createGraph(data) {
   // it is necessary to describe the charts
   created_at[0] = 'Sorted Time';
   datesWithoutRepeat[0] = 'Sorted Time';
-  countedStatus[0] = 'Amount of builds';
   // avoid repeating the same date values and push into another array
   for (let i = 0; i < created_at.length; i++) {
     if (datesWithoutRepeat.indexOf(created_at[i]) === -1) {
@@ -38,19 +41,37 @@ function createGraph(data) {
   // count the failures for each separate day
   // here we need our indexRepeats
   for (let i = 0; i < indexRepeats.length - 1; i++) {
-    let counter = 0;
+    let passedCounter = 0, errorCounter = 0, stoppedCounter = 0, failedCounter = 0;
+
     for (let j = indexRepeats[i]; j < indexRepeats[i + 1]; j++) {
-        counter++;
+        if (summary_status[j] === 'passed')  passedCounter++;
+        if (summary_status[j] === 'error')  errorCounter++;
+        if (summary_status[j] === 'stopped') stoppedCounter++;
+        if (summary_status[j] === 'failed') failedCounter++;
     }
-    countedStatus.push(counter);
+
+    passedArr.push(passedCounter);
+    errorArr.push(errorCounter);
+    stoppedArr.push(stoppedCounter);
+    failedArr.push(failedCounter);
+
   }
   // fix problem with last element
-  let lastDayCounter = 0;
+  let passedLastCounter = 0, errorLastCounter = 0, stoppedLastCounter = 0, failedLastCounter = 0;
+
   for (let i = indexRepeats[indexRepeats.length - 1]; i < summary_status.length; i++) {
-      lastDayCounter++;
+    if (summary_status[i] === 'passed')  passedLastCounter++;
+    if (summary_status[i] === 'error') errorLastCounter++;
+    if (summary_status[i] === 'stopped') stoppedLastCounter++;
+    if (summary_status[i] === 'failed') failedLastCounter++;
   }
-  countedStatus.push(lastDayCounter);
-  // countedStatus.pop(1);
+
+  passedArr.push(passedLastCounter);
+  errorArr.push(errorLastCounter);
+  stoppedArr.push(stoppedLastCounter);
+  failedArr.push(failedLastCounter);
+
+  console.log(datesWithoutRepeat, passedArr, errorArr, stoppedArr, failedArr);
   //Here we build our charts
   const sumStatusVsCreatTime = c3.generate({
     bindto: '#statusVsTime',
@@ -59,15 +80,25 @@ function createGraph(data) {
         type: 'bar',
         columns: [
             datesWithoutRepeat,
-            countedStatus
+            passedArr,
+            errorArr,
+            stoppedArr,
+            failedArr
         ],
+        groups: [
+          ['passed', 'error', 'stopped', 'failed']
+        ],
+        order: 'desc'
     },
     axis: {
         x: {
             type: 'timeseries',
             tick: {
-                rotate: 15,
-                fit: false,
+                culling: {
+                  max: 30
+                },
+                rotate: 65,
+                fit: true,
                 format: '%Y-%m-%d'
             }
         }

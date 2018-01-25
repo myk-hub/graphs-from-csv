@@ -43,7 +43,7 @@ function createGraph(data) {
         type: 'timeseries',
         tick: {
           fit: false,
-          rotate: 15,
+          rotate: 25,
           format: '%Y-%m-%d',
         }
       }
